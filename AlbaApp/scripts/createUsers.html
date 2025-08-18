@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Firebase Users</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .user-card {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        .user-card h3 {
+            margin-top: 0;
+            color: #555;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Create Firebase Users</h1>
+        <p>This page will create test users for your Asociacion de Colonos app.</p>
+        
+        <div class="user-card">
+            <h3>👤 Member User</h3>
+            <p><strong>Email:</strong> john@community.com</p>
+            <p><strong>Password:</strong> demo123</p>
+            <p><strong>Name:</strong> John Smith</p>
+            <button onclick="createMember()" id="memberBtn">Create Member</button>
+            <div id="memberStatus"></div>
+        </div>
+        
+        <div class="user-card">
+            <h3>🛡️ Guard User</h3>
+            <p><strong>Email:</strong> guard@community.com</p>
+            <p><strong>Password:</strong> demo123</p>
+            <p><strong>Name:</strong> Mike Johnson</p>
+            <button onclick="createGuard()" id="guardBtn">Create Guard</button>
+            <div id="guardStatus"></div>
+        </div>
+        
+        <div class="user-card">
+            <h3>📱 Test the App</h3>
+            <p>After creating users, you can test the app with these credentials:</p>
+            <p><strong>Member Login:</strong> john@community.com / demo123</p>
+            <p><strong>Guard Login:</strong> guard@community.com / demo123</p>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore, doc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBD8myTk6GHmWq5Fv44O_sIk4cZ-nmJ5jU",
+            authDomain: "asociacion-de-colonos.firebaseapp.com",
+            projectId: "asociacion-de-colonos",
+            storageBucket: "asociacion-de-colonos.firebasestorage.app",
+            messagingSenderId: "396187509428",
+            appId: "1:396187509428:web:383d5ab444a5908996ede1"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Make functions globally available
+        window.createMember = async function() {
+            const btn = document.getElementById('memberBtn');
+            const status = document.getElementById('memberStatus');
+            
+            btn.disabled = true;
+            btn.textContent = 'Creating...';
+            status.innerHTML = '';
+            
+            try {
+                // Create user in Firebase Auth
+                const userCredential = await createUserWithEmailAndPassword(
+                    auth, 
+                    'john@community.com', 
+                    'demo123'
+                );
+                
+                // Store additional user data in Firestore
+                await setDoc(doc(db, 'users', userCredential.user.uid), {
+                    name: 'John Smith',
+                    userType: 'member',
+                    phone: '+1-555-0123',
+                    homeAddress: '123 Oak Street',
+                    vehicleInfo: 'Blue Honda Civic - ABC123',
+                    emergencyContacts: ['+1-555-0124', '+1-555-0125'],
+                    accessLevel: 'resident',
+                    qrCodeHash: 'member_john_123_oak_street_2024',
+                    qrCodeExpiry: new Date(Date.now() + 24 * 60 * 60 * 1000),
+                    createdAt: serverTimestamp(),
+                    uid: userCredential.user.uid
+                });
+                
+                status.innerHTML = '<div class="status success">✅ Member user created successfully!</div>';
+                btn.textContent = 'Member Created';
+                
+            } catch (error) {
+                if (error.code === 'auth/email-already-in-use') {
+                    status.innerHTML = '<div class="status info">⚠️ Member user already exists!</div>';
+                    btn.textContent = 'Member Exists';
+                } else {
+                    status.innerHTML = `<div class="status error">❌ Error: ${error.message}</div>`;
+                    btn.textContent = 'Create Member';
+                    btn.disabled = false;
+                }
+            }
+        };
+
+        window.createGuard = async function() {
+            const btn = document.getElementById('guardBtn');
+            const status = document.getElementById('guardStatus');
+            
+            btn.disabled = true;
+            btn.textContent = 'Creating...';
+            status.innerHTML = '';
+            
+            try {
+                // Create user in Firebase Auth
+                const userCredential = await createUserWithEmailAndPassword(
+                    auth, 
+                    'guard@community.com', 
+                    'demo123'
+                );
+                
+                // Store additional user data in Firestore
+                await setDoc(doc(db, 'users', userCredential.user.uid), {
+                    name: 'Mike Johnson',
+                    userType: 'guard',
+                    phone: '+1-555-0200',
+                    badgeNumber: 'G001',
+                    shiftHours: '6 AM - 6 PM',
+                    accessLevel: 'guard',
+                    createdAt: serverTimestamp(),
+                    uid: userCredential.user.uid
+                });
+                
+                status.innerHTML = '<div class="status success">✅ Guard user created successfully!</div>';
+                btn.textContent = 'Guard Created';
+                
+            } catch (error) {
+                if (error.code === 'auth/email-already-in-use') {
+                    status.innerHTML = '<div class="status info">⚠️ Guard user already exists!</div>';
+                    btn.textContent = 'Guard Exists';
+                } else {
+                    status.innerHTML = `<div class="status error">❌ Error: ${error.message}</div>`;
+                    btn.textContent = 'Create Guard';
+                    btn.disabled = false;
+                }
+            }
+        };
+    </script>
+</body>
+</html>
