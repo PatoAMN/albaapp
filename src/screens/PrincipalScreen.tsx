@@ -201,34 +201,6 @@ const PrincipalScreen: React.FC<PrincipalScreenProps> = ({ onCardPress }) => {
           </TouchableOpacity>
         </View>
       </ScrollView>
-
-      {/* Bottom Navigation */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={[styles.navItem, styles.activeNavItem]}>
-          <Ionicons name="home" size={24} color="#9C27B0" />
-          <Text style={[styles.navText, styles.activeNavText]}>Inicio</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navItem}>
-          <Ionicons name="pricetag" size={24} color="#666" />
-          <Text style={styles.navText}>Promociones</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navItem}>
-          <Ionicons name="call" size={24} color="#666" />
-          <Text style={styles.navText}>Directorio</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navItem}>
-          <Ionicons name="notifications" size={24} color="#666" />
-          <Text style={styles.navText}>Notificaciones</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.navItem}>
-          <Ionicons name="person" size={24} color="#666" />
-          <Text style={styles.navText}>Perfil</Text>
-        </TouchableOpacity>
-      </View>
     </SafeAreaView>
   );
 };
@@ -387,31 +359,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#333',
     textAlign: 'center',
-  },
-  bottomNav: {
-    flexDirection: 'row',
-    backgroundColor: '#ffffff',
-    borderTopWidth: 1,
-    borderTopColor: '#e0e0e0',
-    paddingVertical: 8,
-  },
-  navItem: {
-    flex: 1,
-    alignItems: 'center',
-    paddingVertical: 8,
-  },
-  activeNavItem: {
-    // Active state styling
-  },
-  navText: {
-    fontSize: 10,
-    color: '#666',
-    marginTop: 4,
-    textAlign: 'center',
-  },
-  activeNavText: {
-    color: '#9C27B0',
-    fontWeight: '600',
   },
 });
 
