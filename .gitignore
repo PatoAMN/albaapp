@@ -1,15 +1,29 @@
+<<<<<<< HEAD
 # Dependencies
 node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+=======
+# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+
+# dependencies
+node_modules/
+>>>>>>> 55ca0f8de4f987efb3429c7224a661cc13d6f779
 
 # Expo
 .expo/
 dist/
 web-build/
+<<<<<<< HEAD
 
 # Native
+=======
+expo-env.d.ts
+
+# Native
+.kotlin/
+>>>>>>> 55ca0f8de4f987efb3429c7224a661cc13d6f779
 *.orig.*
 *.jks
 *.p8
@@ -20,7 +34,11 @@ web-build/
 # Metro
 .metro-health-check*
 
+<<<<<<< HEAD
 # Debug
+=======
+# debug
+>>>>>>> 55ca0f8de4f987efb3429c7224a661cc13d6f779
 npm-debug.*
 yarn-debug.*
 yarn-error.*
@@ -31,11 +49,15 @@ yarn-error.*
 
 # local env files
 .env*.local
+<<<<<<< HEAD
 .env
+=======
+>>>>>>> 55ca0f8de4f987efb3429c7224a661cc13d6f779
 
 # typescript
 *.tsbuildinfo
 
+<<<<<<< HEAD
 # Firebase
 .firebase/
 firebase-debug.log
@@ -74,3 +96,8 @@ android/app/release/
 # OS generated files
 Thumbs.db
 ehthumbs.db
+=======
+# generated native folders
+/ios
+/android
+>>>>>>> 55ca0f8de4f987efb3429c7224a661cc13d6f779
