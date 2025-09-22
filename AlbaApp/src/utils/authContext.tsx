@@ -3,6 +3,7 @@ import { User as FirebaseUser } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { auth, db, loginUser, logoutUser } from './firebase';
 import { Member, Guard, User } from '../types';
+import NotificationService from './notifications';
 
 interface AuthContextType {
   user: User | null;
@@ -28,6 +29,22 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  // Inicializar notificaciones al cargar la app
+  useEffect(() => {
+    const initializeNotifications = async () => {
+      try {
+        const token = await NotificationService.registerForPushNotifications();
+        if (token) {
+          console.log('Notificaciones push configuradas:', token);
+        }
+      } catch (error) {
+        console.error('Error configurando notificaciones:', error);
+      }
+    };
+
+    initializeNotifications();
+  }, []);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (firebaseUser: FirebaseUser | null) => {

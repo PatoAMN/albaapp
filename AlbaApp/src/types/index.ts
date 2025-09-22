@@ -2,9 +2,12 @@ export interface User {
   id: string;
   email: string;
   name: string;
-  userType: 'member' | 'guard';
+  userType: 'member' | 'guard' | 'admin' | 'super_admin';
   phone?: string;
   createdAt: Date;
+  organizationId: string;
+  isActive: boolean;
+  profileImage?: string;
 }
 
 export interface Member extends User {
@@ -15,6 +18,9 @@ export interface Member extends User {
   accessLevel: 'resident' | 'guest' | 'restricted';
   qrCodeHash: string;
   qrCodeExpiry: Date;
+  residentSince: Date;
+  homeNumber?: string;
+  familyMembers?: string[];
 }
 
 export interface Guard extends User {
@@ -22,6 +28,12 @@ export interface Guard extends User {
   badgeNumber: string;
   shiftHours?: string;
   accessLevel: 'guard' | 'supervisor';
+  assignedAccessPoints?: string[];
+  currentShift?: {
+    startTime: Date;
+    endTime: Date;
+    status: 'active' | 'break' | 'ended';
+  };
 }
 
 export interface Guest {
@@ -56,4 +68,35 @@ export interface AuthContextType {
   login: (credentials: LoginCredentials) => Promise<void>;
   logout: () => void;
   isLoading: boolean;
+}
+
+export interface Announcement {
+  id: string;
+  title: string;
+  content: string;
+  type: 'general' | 'security' | 'maintenance' | 'event' | 'emergency';
+  priority: 'low' | 'medium' | 'high' | 'urgent';
+  organizationId: string;
+  organizationName?: string;
+  createdBy: string;
+  createdByName?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt?: Date;
+  expiresAt?: Date;
+  status: 'draft' | 'published' | 'archived';
+  isActive: boolean;
+  targetAudience: 'all' | 'members' | 'guards' | 'admins';
+  tags?: string[];
+  readBy?: string[];
+  views?: number;
+}
+
+export interface AnnouncementAttachment {
+  id: string;
+  name: string;
+  url: string;
+  type: string;
+  size: number;
+  uploadedAt: Date;
 }

@@ -10,6 +10,7 @@ import {
   Dimensions,
   Image,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../utils/authContext';
 import { Member } from '../types';
 
@@ -17,6 +18,7 @@ const { width } = Dimensions.get('window');
 
 export const MemberHomeScreen: React.FC = () => {
   const { user, logout } = useAuth();
+  const navigation = useNavigation();
   const [currentTime, setCurrentTime] = useState(new Date());
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>('');
   const [loading, setLoading] = useState(false);
@@ -216,23 +218,54 @@ export const MemberHomeScreen: React.FC = () => {
           
           <View style={styles.actionsGrid}>
             <TouchableOpacity style={styles.actionButton}>
-              <Text style={styles.actionIcon}>📞</Text>
-              <Text style={styles.actionText}>Llamar Seguridad</Text>
+              <Text style={styles.actionIcon}>👤</Text>
+              <Text style={styles.actionText}>Perfil</Text>
             </TouchableOpacity>
             
             <TouchableOpacity style={styles.actionButton}>
-              <Text style={styles.actionIcon}>🚨</Text>
-              <Text style={styles.actionText}>Reportar Incidente</Text>
+              <Text style={styles.actionIcon}>💬</Text>
+              <Text style={styles.actionText}>Chat con Seguridad</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              style={styles.actionButton}
+              onPress={() => navigation.navigate('Announcements' as never)}
+            >
+              <Text style={styles.actionIcon}>📢</Text>
+              <Text style={styles.actionText}>Avisos</Text>
             </TouchableOpacity>
             
             <TouchableOpacity style={styles.actionButton}>
-              <Text style={styles.actionIcon}>📝</Text>
-              <Text style={styles.actionText}>Solicitar Acceso</Text>
+              <Text style={styles.actionIcon}>📱</Text>
+              <Text style={styles.actionText}>Pases de Visita</Text>
             </TouchableOpacity>
             
             <TouchableOpacity style={styles.actionButton}>
-              <Text style={styles.actionIcon}>⚙️</Text>
-              <Text style={styles.actionText}>Configuración</Text>
+              <Text style={styles.actionIcon}>📚</Text>
+              <Text style={styles.actionText}>Biblioteca y Reglamentos</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={styles.actionButton}>
+              <Text style={styles.actionIcon}>🎫</Text>
+              <Text style={styles.actionText}>Pase Personal</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={styles.actionButton}>
+              <Text style={styles.actionIcon}>⚠️</Text>
+              <Text style={styles.actionText}>Incidencias</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={styles.actionButton}>
+              <Text style={styles.actionIcon}>👥</Text>
+              <Text style={styles.actionText}>Comunidad</Text>
+            </TouchableOpacity>
+          </View>
+          
+          {/* Sección de Emergencia - Ahora en la parte inferior */}
+          <View style={styles.emergencySection}>
+            <TouchableOpacity style={styles.emergencyButton}>
+              <Text style={styles.emergencyIcon}>🚨</Text>
+              <Text style={styles.emergencyText}>EMERGENCIA</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -567,6 +600,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
+    marginBottom: 20,
   },
   actionButton: {
     width: (width - 80) / 2,
@@ -609,5 +643,30 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 18,
     fontWeight: '600',
+  },
+  emergencySection: {
+    marginTop: 10,
+  },
+  emergencyButton: {
+    backgroundColor: '#DC2626',
+    borderRadius: 15,
+    padding: 20,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 6,
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  emergencyIcon: {
+    fontSize: 24,
+    marginRight: 12,
+  },
+  emergencyText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });

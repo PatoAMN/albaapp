@@ -3,14 +3,15 @@ import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, si
 import { getFirestore, collection, doc, setDoc, getDoc, getDocs, query, where, addDoc, serverTimestamp } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
-// 🔥 Firebase Configuration - Updated with your actual values
+// 🔥 Firebase Configuration - Unified with SafeGate System
 const firebaseConfig = {
-  apiKey: "AIzaSyBD8myTk6GHmWq5Fv44O_sIk4cZ-nmJ5jU",
-  authDomain: "asociacion-de-colonos.firebaseapp.com",
-  projectId: "asociacion-de-colonos",
-  storageBucket: "asociacion-de-colonos.firebasestorage.app",
-  messagingSenderId: "396187509428",
-  appId: "1:396187509428:web:383d5ab444a5908996ede1"
+  apiKey: "AIzaSyC0GH4ijTwOns7Gxv5LrP3MxaJoc7jkRk8",
+  authDomain: "safegate-system.firebaseapp.com",
+  projectId: "safegate-system",
+  storageBucket: "safegate-system.firebasestorage.app",
+  messagingSenderId: "530344581834",
+  appId: "1:530344581834:web:0c8875d5677f9665b7f233",
+  measurementId: "G-3ECN4HQG98"
 };
 
 // Initialize Firebase
